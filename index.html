@@ -179,6 +179,17 @@
       display:inline-flex; align-items:center; gap:.5rem; padding:.25rem .6rem; font-size:.85rem;
       background:#fff; border:1px solid #e6eef6; border-radius:999px; color:#334;
     }
+
+    /* Community Wall */
+    .wall{
+      display:grid; grid-template-columns: repeat(3,minmax(240px,1fr)); gap:1rem;
+    }
+    @media (max-width: 820px){ .wall{ grid-template-columns: 1fr; } }
+    .wall-card{
+      background:#fff; border:1px solid #e6eef6; border-radius:14px; padding:1rem; box-shadow:0 2px 10px rgba(0,0,0,.05);
+    }
+    .wall-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem;}
+    .badge{ font-size:.75rem; padding:.2rem .5rem; border-radius:999px; background:var(--card); border:1px solid #e6eef6; }
   </style>
 </head>
 <body>
@@ -195,7 +206,8 @@
     <a href="#features">Features</a>
     <a href="#impact">Impact</a>
     <a href="#azure">Azure AI</a>
-    <a href="#dashboard">Sponsors</a>
+    <!-- ⬇ Sponsors link now points to the new admin dashboard page -->
+    <a href="admin.html">Sponsors</a>
     <a href="#liveMetrics">Metrics</a>
     <a href="#leaderboard">Leaderboard</a>
     <a href="#pledge">Pledge</a>
@@ -336,10 +348,24 @@
     </div>
   </section>
 
+  <!-- COMMUNITY WALL / RECENT PLEDGES -->
+  <section id="community">
+    <h2><i class="fa-solid fa-people-group"></i> Community Wall</h2>
+    <div class="status-chip"><span id="wallStatus">Loading recent pledges…</span></div>
+    <div id="wall" class="wall" aria-live="polite" style="margin-top:12px"></div>
+  </section>
+
   <!-- PLEDGE -->
   <section id="pledge">
     <h2><i class="fas fa-pen-fancy"></i> Make Your Lakshya</h2>
     <form id="pledgeForm" novalidate>
+      <!-- ⬇ Identity Capture -->
+      <label for="name"><i class="fa-solid fa-id-badge"></i> Your Name:</label>
+      <input type="text" id="name" name="name" required minlength="2" placeholder="e.g., Asha Verma"/>
+
+      <label for="email"><i class="fa-solid fa-envelope"></i> Email:</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com"/>
+
       <label for="mission"><i class="fas fa-bullseye"></i> Choose a Mission:</label>
       <select id="mission" required>
         <option value="">-- Select --</option>
@@ -396,7 +422,9 @@
     const ENDPOINTS = {
       metrics: FUNCTION_BASE_URL + "/api/metrics",
       leaderboard: FUNCTION_BASE_URL + "/api/leaderboard",
-      pledge: FUNCTION_BASE_URL + "/api/pledge"
+      pledge: FUNCTION_BASE_URL + "/api/pledge",
+      pledges: FUNCTION_BASE_URL + "/api/pledges",       // ⬅ list recent pledges
+      notify:  FUNCTION_BASE_URL + "/api/notify"         // ⬅ proxy to Logic Apps email (see notes)
     };
 
     // ==== UI Helpers ====
@@ -480,14 +508,17 @@
     // Refresh metrics periodically
     setInterval(loadMetrics, 15000);
 
-    // ==== Leaderboard ====
+    // ==== Leaderboard (by Name, sorted by Karma) ====
     async function loadLeaderboard(){
       document.getElementById("leaderSkeleton").style.display = "block";
       document.getElementById("leaderList").innerHTML = "";
       document.getElementById("lbStatus").textContent = "Loading…";
 
       try{
-        const rows = await fetchJSON(ENDPOINTS.leaderboard, {timeout: 7000, tries: 3});
+        let rows = await fetchJSON(ENDPOINTS.leaderboard, {timeout: 7000, tries: 3});
+        // Ensure shape is [{name, karma}] and sort by karma desc
+        rows = (rows||[]).sort((a,b)=>(b.karma||0)-(a.karma||0));
+
         const list = document.getElementById("leaderList");
         const skel = document.getElementById("leaderSkeleton");
         skel.style.display = "none";
@@ -497,10 +528,11 @@
           li.className = "leader-item";
           const rank = idx+1;
           const rankClass = rank===1 ? "gold" : rank===2 ? "silver" : rank===3 ? "bronze" : "";
+          const badge = rank===1 ? "👑" : rank<=3 ? "⭐" : "";
           li.innerHTML = `
             <div class="leader-left">
               <div class="rank ${rankClass}">${rank}</div>
-              <div class="user">${row.name || "Citizen "+rank}</div>
+              <div class="user">${row.name || "Citizen "+rank} ${badge}</div>
             </div>
             <div class="score"><i class="fa-solid fa-coins" style="margin-right:.35rem;color:var(--brand1)"></i>${(row.karma||0).toLocaleString()}</div>
           `;
@@ -510,14 +542,47 @@
         document.getElementById("lbStatus").innerHTML = 'Live <i class="fa-regular fa-circle-check" style="color:var(--ok)"></i>';
       }catch(e){
         document.getElementById("lbStatus").innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#c00"></i> Failed';
-        // keep skeleton to show "loading" feel with purpose
         document.getElementById("leaderSkeleton").style.display = "block";
       }
     }
 
-    // ==== Pledge Submit ====
+    // ==== Community Wall / Recent Pledges ====
+    async function loadRecentPledges(){
+      const status = document.getElementById("wallStatus");
+      const wall = document.getElementById("wall");
+      wall.innerHTML = "";
+      status.textContent = "Loading recent pledges…";
+      try{
+        // Expected shape: [{name, mission, karma, goal, timestamp}]
+        const pledges = await fetchJSON(ENDPOINTS.pledges, {timeout: 7000, tries: 3});
+        (pledges||[]).slice(0, 12).forEach(p => {
+          const el = document.createElement("div");
+          el.className = "wall-card";
+          el.innerHTML = `
+            <div class="wall-top">
+              <strong>${p.name || "Anonymous"}</strong>
+              <span class="badge"><i class="fa-solid fa-bullseye"></i> ${p.mission || "—"}</span>
+            </div>
+            <div style="font-size:.95rem;color:#334">${p.goal ? p.goal : ""}</div>
+            <div style="margin-top:.5rem;display:flex;align-items:center;gap:.75rem;font-weight:600;color:var(--brand2)">
+              <span><i class="fa-solid fa-coins" style="color:var(--brand1)"></i> ${(p.karma||0).toLocaleString()}</span>
+              <span style="opacity:.7;font-weight:500">•</span>
+              <span style="opacity:.8">${p.timestamp ? new Date(p.timestamp).toLocaleString() : ""}</span>
+            </div>
+          `;
+          wall.appendChild(el);
+        });
+        status.innerHTML = 'Latest pledges <i class="fa-regular fa-circle-check" style="color:var(--ok)"></i>';
+      }catch(e){
+        status.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#c00"></i> Unable to load';
+      }
+    }
+
+    // ==== Pledge Submit (now includes name & email + Logic Apps notify) ====
     document.getElementById('pledgeForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
       const mission = document.getElementById('mission').value.trim();
       const goal = document.getElementById('goal').value.trim();
       const reason = document.getElementById('reason').value.trim();
@@ -526,7 +591,7 @@
       const hint = document.getElementById("formHint");
       const impact = document.getElementById("submitImpact");
 
-      if(!mission || goal.length<5 || !reason){
+      if(!name || !email || !mission || goal.length<5 || !reason){
         toast("Please complete all fields.");
         return;
       }
@@ -541,15 +606,25 @@
           method: "POST",
           timeout: 8000,
           tries: 2,
-          body: { mission, goal, reason }
+          body: { name, email, mission, goal, reason }
         });
+
+        // Optional: ping Logic Apps via your Functions proxy (avoid exposing webhook client-side)
+        try {
+          await fetchJSON(ENDPOINTS.notify, {
+            method: "POST",
+            timeout: 5000,
+            tries: 1,
+            body: { name, email, mission, goal, karma: res?.karma || 0 }
+          });
+        } catch(_) { /* silent */ }
 
         toast("Thank you for your Lakshya! 🎉");
         hint.textContent = "Pledge received. Updating live metrics and leaderboard…";
         document.getElementById('pledgeForm').reset();
 
         // optimistic refresh
-        await Promise.all([loadMetrics(), loadLeaderboard()]);
+        await Promise.all([loadMetrics(), loadLeaderboard(), loadRecentPledges()]);
       }catch(err){
         toast("Submission failed. Please try again.");
         hint.textContent = "We couldn’t reach the server. Your pledge matters—give it another go.";
@@ -563,6 +638,9 @@
     // ==== Boot ====
     loadMetrics();
     loadLeaderboard();
+    loadRecentPledges();
+    // Optionally poll the wall occasionally:
+    setInterval(loadRecentPledges, 30000);
   </script>
 </body>
 </html>
