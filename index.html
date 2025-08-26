@@ -5,195 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lakshya</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{
-      --brand1:#ff7b00; /* saffron */
-      --brand2:#0056b3; /* blue */
-      --ok:#28a745;
-      --bg:#fefefe;
-      --ink:#222;
-      --card:#f4faff;
-      --muted:#e9eef6;
+    :root {
+      --brand1: #ff7b00;
+      --brand2: #0056b3;
+      --ok: #28a745;
+      --bg: #fefefe;
+      --ink: #222;
+      --card: #f4faff;
+      --muted: #e9eef6;
     }
-
-    *{box-sizing:border-box}
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      background: var(--bg);
-      color: var(--ink);
-    }
-
-    header {
-      text-align: center;
-      padding: 2rem;
-      background: linear-gradient(135deg, var(--brand1), var(--brand2));
-      color: white;
-    }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    header { text-align: center; padding: 2rem; background: linear-gradient(135deg, var(--brand1), var(--brand2)); color: white; }
     header h1 { margin: 0; font-size: 2.8rem; }
     header p { margin: 0.5rem 0; font-size: 1.2rem; }
-
-    .cta-button {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.75rem 1.5rem;
-      background: var(--brand1);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.25s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-    .cta-button:hover { background: var(--brand2); transform: translateY(-1px);}
-
-    nav {
-      position: sticky; top: 0; z-index: 50;
-      display: flex; justify-content: center; gap: 1.5rem;
-      background: var(--brand2); padding: 0.75rem 1rem;
-    }
+    .cta-button { display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--brand1); color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.25s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .cta-button:hover { background: var(--brand2); transform: translateY(-1px); }
+    nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; gap: 1.5rem; background: var(--brand2); padding: 0.75rem 1rem; }
     nav a { color: white; text-decoration: none; font-weight: bold; }
     nav a:hover { color: var(--brand1); }
-
     section { padding: 2rem; max-width: 1100px; margin: auto; }
     section h2 { color: var(--brand2); display: flex; align-items: center; gap: 10px; }
     section h2 i { color: var(--brand1); }
-
     ul { list-style: none; padding: 0; }
     ul li { margin: 0.8rem 0; display: flex; align-items: center; gap: 10px; }
     ul li i { color: var(--brand1); font-size: 1.2rem; }
-
-    form {
-      display: flex; flex-direction: column; gap: 1.2rem;
-      background: var(--card); padding: 2rem; border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-    }
+    form { display: flex; flex-direction: column; gap: 1.2rem; background: var(--card); padding: 2rem; border-radius: 12px; box-shadow: 0 3px 12px rgba(0,0,0,0.1); }
     form label { font-weight: bold; display: flex; align-items: center; gap: 8px; color: var(--brand2); }
-    form input, form select, form textarea {
-      padding: 0.8rem; border: 1px solid #ccd6e3; border-radius: 10px; width: 100%; background: #fff;
-    }
-    form button[disabled]{ opacity: .7; cursor: not-allowed; }
-
-    footer {
-      text-align: center; padding: 1.5rem; background: var(--brand2); color: white; margin-top: 2rem;
-    }
-    footer a { color: var(--brand1); margin: 0 10px; text-decoration: none; font-size: 1.2rem; }
-
-    #backToTop {
-      position: fixed; bottom: 20px; right: 20px; padding: 12px 16px;
-      border: none; background: var(--brand1); color: #fff; font-size: 18px;
-      border-radius: 50%; cursor: pointer; box-shadow: 0 3px 12px rgba(0,0,0,0.25);
-    }
-
-    /* Metrics */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(220px,1fr));
-      gap: 1.25rem;
-      margin-top: 1rem;
-    }
-    @media (max-width: 820px){
-      .metrics-grid{ grid-template-columns: 1fr; }
-    }
-    .metric-card {
-      background: var(--card); padding: 1.5rem; border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; position: relative; overflow: hidden;
-    }
+    form input, form select, form textarea { padding: 0.8rem; border: 1px solid #ccd6e3; border-radius: 10px; width: 100%; background: #fff; }
+    form button[disabled] { opacity: .7; cursor: not-allowed; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(220px,1fr)); gap: 1.25rem; margin-top: 1rem; }
+    @media (max-width: 820px) { .metrics-grid { grid-template-columns: 1fr; } }
+    .metric-card { background: var(--card); padding: 1.5rem; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
     .metric-card i { font-size: 2rem; margin-bottom: 0.5rem; }
-    .metric-card h3 { margin: 0.5rem 0; font-size: 1.15rem; }
-    .metric-card p { font-size: 1.8rem; font-weight: bold; margin: 0; min-height: 2.4rem; }
-
-    /* KARMA SPINNER (circular loader with brand colours) */
-    .karma-spinner {
-      --size: 38px;
-      width: var(--size); height: var(--size);
-      border-radius: 50%;
-      border: 4px solid transparent;
-      border-top-color: var(--brand1);
-      border-right-color: var(--brand2);
-      border-bottom-color: var(--ok);
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
+    .impact-wrapper { width: 100%; background: #eef4ff; border-radius: 999px; overflow: hidden; height: 12px; }
+    .impact-bar { height: 12px; width: 0%; background: linear-gradient(90deg, var(--brand1), var(--brand2)); animation: pulseStripe 1.4s linear infinite; }
+    @keyframes pulseStripe { 0% { filter: brightness(1); } 50% { filter: brightness(1.25); } 100% { filter: brightness(1); } }
+    .karma-spinner { width: 38px; height: 38px; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--brand1); border-right-color: var(--brand2); border-bottom-color: var(--ok); animation: spin 1s linear infinite; margin: 0 auto; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* IMPACT BAR (progress bar loader) */
-    .impact-wrapper{ width:100%; background:#eef4ff; border-radius: 999px; overflow: hidden; height: 12px; }
-    .impact-bar{
-      height: 12px; width: 0%;
-      background: linear-gradient(90deg, var(--brand1), var(--brand2));
-      position: relative;
-      animation: pulseStripe 1.4s linear infinite;
-    }
-    @keyframes pulseStripe {
-      0% { filter: brightness(1); }
-      50% { filter: brightness(1.25); }
-      100% { filter: brightness(1); }
-    }
-
-    /* Leaderboard */
-    .leaderboard {
-      margin-top: 1rem;
-      background: #fff; border: 1px solid #e6eef6; border-radius: 14px;
-      overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-    .leaderboard-header{
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 1rem 1.25rem; background: var(--card);
-    }
-    .leaderboard-list{ padding: 0; margin: 0; }
-    .leader-item{
-      list-style:none; display:flex; align-items:center; justify-content:space-between;
-      padding: 0.9rem 1.25rem; border-top:1px solid #eef3f9;
-    }
-    .leader-left{ display:flex; align-items:center; gap:.9rem; }
-    .rank{
-      width:36px; height:36px; border-radius:50%; display:grid; place-items:center;
-      font-weight:700; color:#fff; background: var(--brand2);
-    }
-    .rank.gold{ background: linear-gradient(135deg,#f7b733,#fc4a1a);}
-    .rank.silver{ background: linear-gradient(135deg,#bdc3c7,#2c3e50);}
-    .rank.bronze{ background: linear-gradient(135deg,#d1913c,#ffd194);}
-    .user{ font-weight:600; }
-    .score{ font-weight:700; color: var(--brand2); }
-
-    /* Skeleton Leaderboard */
-    .skeleton{ background: linear-gradient(90deg,#f3f6fb, #e9eef6, #f3f6fb); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
-    @keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .leader-skel-item{ height:56px; display:flex; align-items:center; gap:1rem; padding: 0 1.25rem; border-top:1px solid #eef3f9;}
-    .skel-circle{ width:36px; height:36px; border-radius:50%; }
-    .skel-name{ width:160px; height:14px; border-radius:6px; }
-    .skel-score{ width:80px; height:14px; border-radius:6px; margin-left:auto; }
-
-    /* Toast */
-    .toast{ position: fixed; left:50%; transform:translateX(-50%);
-      bottom: 24px; background:#111; color:#fff; padding:.8rem 1rem;
-      border-radius:999px; font-weight:600; opacity:0; pointer-events:none; transition:.25s; }
-    .toast.show{ opacity:1; bottom:32px; }
-
-    /* Helper badges */
-    .status-chip{
-      display:inline-flex; align-items:center; gap:.5rem; padding:.25rem .6rem; font-size:.85rem;
-      background:#fff; border:1px solid #e6eef6; border-radius:999px; color:#334;
-    }
-
-    /* Community Wall */
-    .wall{
-      display:grid; grid-template-columns: repeat(3,minmax(240px,1fr)); gap:1rem;
-    }
-    @media (max-width: 820px){ .wall{ grid-template-columns: 1fr; } }
-    .wall-card{
-      background:#fff; border:1px solid #e6eef6; border-radius:14px; padding:1rem; box-shadow:0 2px 10px rgba(0,0,0,.05);
-    }
-    .wall-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem;}
-    .badge{ font-size:.75rem; padding:.2rem .5rem; border-radius:999px; background:var(--card); border:1px solid #e6eef6; }
+    .leaderboard { margin-top: 1rem; background: #fff; border: 1px solid #e6eef6; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .leaderboard-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: var(--card); }
+    .leaderboard-list { padding: 0; margin: 0; }
+    .leader-item { list-style: none; display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.25rem; border-top: 1px solid #eef3f9; }
+    .leader-left { display: flex; align-items: center; gap: .9rem; }
+    .rank { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--brand2); }
+    .rank.gold { background: linear-gradient(135deg,#f7b733,#fc4a1a); }
+    .rank.silver { background: linear-gradient(135deg,#bdc3c7,#2c3e50); }
+    .rank.bronze { background: linear-gradient(135deg,#d1913c,#ffd194); }
+    .user { font-weight: 600; }
+    .score { font-weight: 700; color: var(--brand2); }
+    .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 24px; background: #111; color: #fff; padding: .8rem 1rem; border-radius: 999px; font-weight: 600; opacity: 0; pointer-events: none; transition: .25s; }
+    .toast.show { opacity: 1; bottom: 32px; }
   </style>
 </head>
 <body>
-
   <header>
     <h1><i class="fas fa-handshake"></i> Lakshya</h1>
     <p>Gamified Civic Engagement Platform Powered by Microsoft Azure</p>
@@ -206,165 +73,30 @@
     <a href="#features">Features</a>
     <a href="#impact">Impact</a>
     <a href="#azure">Azure AI</a>
-    <!-- ⬇ Sponsors link now points to the new admin dashboard page -->
-    <a href="admin.html">Sponsors</a>
+    <a href="#dashboard">Sponsors</a>
     <a href="#liveMetrics">Metrics</a>
     <a href="#leaderboard">Leaderboard</a>
+    <a href="#recentPledges">Community Wall</a>
     <a href="#pledge">Pledge</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <section id="about">
-    <h2><i class="fas fa-info-circle"></i> About Lakshya</h2>
-    <p>Lakshya is a civic-tech platform that transforms personal goals into national impact. Whether you're walking for health or learning new skills, your actions earn Karma Points that fund public-good initiatives like health camps and scholarships.</p>
+  <!-- Sections: About, Why, Features, Impact, Azure, Metrics, Leaderboard, Recent Pledges, Pledge Form -->
+  <!-- RECENT PLEDGES -->
+  <section id="recentPledges">
+    <h2><i class="fas fa-users"></i> Community Wall</h2>
+    <ul id="recentList"></ul>
   </section>
 
-  <section id="why">
-    <h2><i class="fas fa-question-circle"></i> Why Lakshya?</h2>
-    <ul>
-      <li><i class="fas fa-flag"></i> Your pledge. Our progress.</li>
-      <li><i class="fas fa-users"></i> Make a Lakshya. Move a nation.</li>
-      <li><i class="fas fa-gem"></i> Resolve meets reward.</li>
-      <li><i class="fas fa-globe"></i> Built for Bharat. Built for the future.</li>
-    </ul>
-  </section>
-
-  <section id="features">
-    <h2><i class="fas fa-star"></i> Platform Features</h2>
-    <ul>
-      <li><i class="fas fa-bullseye"></i> Personal Lakshyas aligned with national missions</li>
-      <li><i class="fas fa-gamepad"></i> Gamified progress tracking</li>
-      <li><i class="fas fa-heart"></i> Karma Points for verified actions</li>
-      <li><i class="fas fa-hand-holding-heart"></i> Public-good rewards funded by sponsors</li>
-      <li><i class="fas fa-chart-line"></i> Real-time dashboards for sponsors and government</li>
-      <li><i class="fas fa-mobile-alt"></i> Mobile-friendly experience with push notifications</li>
-    </ul>
-  </section>
-
-  <section id="impact">
-    <h2><i class="fas fa-bolt"></i> Impact So Far</h2>
-    <ul>
-      <li><i class="fas fa-coins"></i> Karma Points Earned</li>
-      <li><i class="fas fa-clinic-medical"></i> Health Camps Sponsored</li>
-      <li><i class="fas fa-graduation-cap"></i> Scholarships Funded</li>
-      <li><i class="fas fa-users"></i> Active Users Engaged</li>
-    </ul>
-  </section>
-
-  <section id="azure">
-    <h2><i class="fas fa-cloud"></i> Powered by Microsoft Azure</h2>
-    <ul>
-      <li><i class="fas fa-database"></i> Cosmos DB: Stores Lakshyas and Karma Points</li>
-      <li><i class="fas fa-robot"></i> Machine Learning: Analyzes engagement trends</li>
-      <li><i class="fas fa-sync-alt"></i> Logic Apps: Automates reward conversion</li>
-      <li><i class="fas fa-bell"></i> Notification Hubs: Sends real-time updates</li>
-      <li><i class="fas fa-comments"></i> Communication Services: Adds in-app chat and SMS</li>
-      <li><i class="fas fa-shield-alt"></i> Azure AD B2C: Secure</li>
-    </ul>
-  </section>
-
-  <!-- LIVE METRICS -->
-  <section id="liveMetrics">
-    <h2><i class="fas fa-tachometer-alt"></i> Live Impact Metrics</h2>
-
-    <div class="status-chip">
-      <span id="metricsStatus"><i class="fa-solid fa-signal"></i> Connecting to Azure…</span>
-    </div>
-
-    <div class="metrics-grid" style="margin-top:14px">
-      <div class="metric-card">
-        <i class="fas fa-coins" style="color: var(--brand1);"></i>
-        <h3>Karma Points Earned</h3>
-        <div class="impact-wrapper" style="margin:8px 0 12px">
-          <div id="impactKarma" class="impact-bar"></div>
-        </div>
-        <div id="karmaLoader" class="karma-spinner" aria-hidden="true"></div>
-        <p id="karmaPoints" aria-live="polite"></p>
-      </div>
-      <div class="metric-card">
-        <i class="fas fa-users" style="color: var(--brand2);"></i>
-        <h3>Active Citizens</h3>
-        <div class="impact-wrapper" style="margin:8px 0 12px">
-          <div id="impactUsers" class="impact-bar"></div>
-        </div>
-        <div class="karma-spinner" aria-hidden="true"></div>
-        <p id="activeUsers" aria-live="polite"></p>
-      </div>
-      <div class="metric-card">
-        <i class="fas fa-gift" style="color: var(--ok);"></i>
-        <h3>Rewards Unlocked</h3>
-        <div class="impact-wrapper" style="margin:8px 0 12px">
-          <div id="impactRewards" class="impact-bar"></div>
-        </div>
-        <div class="karma-spinner" aria-hidden="true"></div>
-        <p id="rewardsUnlocked" aria-live="polite"></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- LEADERBOARD -->
-  <section id="leaderboard">
-    <h2><i class="fa-solid fa-trophy"></i> Leaderboard</h2>
-
-    <div class="leaderboard">
-      <div class="leaderboard-header">
-        <div style="display:flex; align-items:center; gap:.6rem">
-          <i class="fa-solid fa-ranking-star" style="color:var(--brand1)"></i>
-          <strong>Top Karma Earners</strong>
-        </div>
-        <div class="status-chip"><span id="lbStatus">Loading…</span></div>
-      </div>
-
-      <ul id="leaderList" class="leaderboard-list" aria-live="polite"></ul>
-
-      <!-- Skeleton (shown until live data arrives) -->
-      <div id="leaderSkeleton">
-        <div class="leader-skel-item">
-          <div class="skel-circle skeleton"></div>
-          <div class="skel-name skeleton"></div>
-          <div class="skel-score skeleton"></div>
-        </div>
-        <div class="leader-skel-item">
-          <div class="skel-circle skeleton"></div>
-          <div class="skel-name skeleton"></div>
-          <div class="skel-score skeleton"></div>
-        </div>
-        <div class="leader-skel-item">
-          <div class="skel-circle skeleton"></div>
-          <div class="skel-name skeleton"></div>
-          <div class="skel-score skeleton"></div>
-        </div>
-        <div class="leader-skel-item">
-          <div class="skel-circle skeleton"></div>
-          <div class="skel-name skeleton"></div>
-          <div class="skel-score skeleton"></div>
-        </div>
-        <div class="leader-skel-item">
-          <div class="skel-circle skeleton"></div>
-          <div class="skel-name skeleton"></div>
-          <div class="skel-score skeleton"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMUNITY WALL / RECENT PLEDGES -->
-  <section id="community">
-    <h2><i class="fa-solid fa-people-group"></i> Community Wall</h2>
-    <div class="status-chip"><span id="wallStatus">Loading recent pledges…</span></div>
-    <div id="wall" class="wall" aria-live="polite" style="margin-top:12px"></div>
-  </section>
-
-  <!-- PLEDGE -->
+  <!-- PLEDGE FORM -->
   <section id="pledge">
     <h2><i class="fas fa-pen-fancy"></i> Make Your Lakshya</h2>
     <form id="pledgeForm" novalidate>
-      <!-- ⬇ Identity Capture -->
-      <label for="name"><i class="fa-solid fa-id-badge"></i> Your Name:</label>
-      <input type="text" id="name" name="name" required minlength="2" placeholder="e.g., Asha Verma"/>
+      <label for="name"><i class="fas fa-user"></i> Your Name:</label>
+      <input type="text" id="name" required placeholder="John Doe" />
 
-      <label for="email"><i class="fa-solid fa-envelope"></i> Email:</label>
-      <input type="email" id="email" name="email" required placeholder="you@example.com"/>
+      <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+      <input type="email" id="email" required placeholder="john@example.com" />
 
       <label for="mission"><i class="fas fa-bullseye"></i> Choose a Mission:</label>
       <select id="mission" required>
@@ -380,267 +112,147 @@
       <label for="reason"><i class="fas fa-comment-dots"></i> Why does this matter to you?</label>
       <textarea id="reason" rows="4" required placeholder="Share your motivation..."></textarea>
 
-      <!-- purpose-driven loading area -->
       <div class="impact-wrapper" aria-hidden="true">
         <div id="submitImpact" class="impact-bar"></div>
       </div>
 
-      <button id="pledgeBtn" type="submit" class="cta-button">
-        <i class="fas fa-paper-plane"></i> Submit My Lakshya
-      </button>
-      <small id="formHint" style="color:#445;opacity:.8"></small>
+      <button type="submit" id="submitBtn">Submit Pledge</button>
     </form>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2><i class="fas fa-address-book"></i> Contact Us</h2>
-    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:support@lakshya.in">support@lakshya.in</a></p>
-    <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="#">linkedin.com/company/lakshya</a></p>
-    <p><i class="fab fa-twitter"></i> Twitter: <a href="#">@LakshyaIndia</a></p>
-    <p><i class="fab fa-instagram"></i> Instagram: <a href="#">@lakshya_platform</a></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Lakshya Platform. All rights reserved.</p>
-    <div>
+  <footer id="contact">
+    <p>© 2025 Lakshya. All rights reserved.</p>
+    <p>
       <a href="#"><i class="fab fa-facebook"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
       <a href="#"><i class="fab fa-linkedin"></i></a>
-    </div>
-    <p>Empowering citizens. Enabling change.</p>
+    </p>
   </footer>
 
-  <button id="backToTop" title="Back to top">↑</button>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <button id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+  <div class="toast" id="toast">Pledge Submitted!</div>
 
   <script>
-    // ==== CONFIG ====
-    const FUNCTION_BASE_URL = "https://<YOUR_FUNCTION_APP>.azurewebsites.net"; // ← set this
-    const ENDPOINTS = {
-      metrics: FUNCTION_BASE_URL + "/api/metrics",
-      leaderboard: FUNCTION_BASE_URL + "/api/leaderboard",
-      pledge: FUNCTION_BASE_URL + "/api/pledge",
-      pledges: FUNCTION_BASE_URL + "/api/pledges",       // ⬅ list recent pledges
-      notify:  FUNCTION_BASE_URL + "/api/notify"         // ⬅ proxy to Logic Apps email (see notes)
-    };
+    const pledgeForm = document.getElementById('pledgeForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const toast = document.getElementById('toast');
+    const leaderList = document.getElementById('leaderList');
+    const leaderSkeleton = document.getElementById('leaderSkeleton');
+    const recentList = document.getElementById('recentList');
 
-    // ==== UI Helpers ====
-    const toast = (msg) => {
-      const el = document.getElementById("toast");
-      el.textContent = msg;
-      el.classList.add("show");
-      setTimeout(()=> el.classList.remove("show"), 2400);
-    };
+    const karmaPointsEl = document.getElementById('karmaPoints');
+    const activeUsersEl = document.getElementById('activeUsers');
+    const rewardsUnlockedEl = document.getElementById('rewardsUnlocked');
+    const impactKarma = document.getElementById('impactKarma');
+    const impactUsers = document.getElementById('impactUsers');
+    const impactRewards = document.getElementById('impactRewards');
+    const submitImpact = document.getElementById('submitImpact');
 
-    const sleep = (ms)=> new Promise(r=>setTimeout(r, ms));
+    const LB_API = 'https://lakshya-api.azurewebsites.net/api/leaderboard';
+    const RECENT_API = 'https://lakshya-api.azurewebsites.net/api/recent';
+    const PLEDGE_API = 'https://lakshya-api.azurewebsites.net/api/submit';
+    const METRICS_API = 'https://lakshya-api.azurewebsites.net/api/metrics';
 
-    // Purposeful loading: animate impact bars deterministically while awaiting data
-    function animateImpactBar(el, duration=1200){
-      el.style.width = "0%";
-      let t0 = performance.now();
-      function frame(now){
-        const p = Math.min(1, (now - t0)/duration);
-        el.style.width = (5 + 90*p) + "%";
-        if(p<1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
+    function showToast(message){
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2500);
     }
 
-    async function fetchJSON(url, {timeout=7000, tries=2, method="GET", body, headers={}} = {}){
-      for(let i=0;i<tries;i++){
-        const ctrl = new AbortController();
-        const to = setTimeout(()=>ctrl.abort(), timeout);
-        try{
-          const res = await fetch(url, {
-            method,
-            headers: { "Content-Type":"application/json", ...headers },
-            body: body ? JSON.stringify(body) : undefined,
-            signal: ctrl.signal
-          });
-          clearTimeout(to);
-          if(!res.ok) throw new Error("HTTP "+res.status);
-          return await res.json();
-        }catch(e){
-          if(i === tries-1) throw e;
-          await sleep(350);
-        }
-      }
-    }
-
-    // ==== Back to top ====
-    document.getElementById('backToTop').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ==== Live Metrics ====
-    async function loadMetrics(){
-      // start purposeful loaders
-      animateImpactBar(document.getElementById("impactKarma"));
-      animateImpactBar(document.getElementById("impactUsers"));
-      animateImpactBar(document.getElementById("impactRewards"));
-
-      document.getElementById("metricsStatus").innerHTML = '<i class="fa-solid fa-signal"></i> Connecting to Azure…';
-
+    async function fetchLeaderboard(){
       try{
-        const data = await fetchJSON(ENDPOINTS.metrics, {timeout: 6000, tries: 3});
-        // Replace spinners with numbers
-        document.querySelectorAll("#liveMetrics .karma-spinner").forEach(s=>s.style.display="none");
-
-        const { karmaPoints, activeUsers, rewardsUnlocked } = data;
-        document.getElementById("karmaPoints").textContent = Number(karmaPoints).toLocaleString();
-        document.getElementById("activeUsers").textContent = Number(activeUsers).toLocaleString();
-        document.getElementById("rewardsUnlocked").textContent = Number(rewardsUnlocked).toLocaleString();
-
-        document.getElementById("metricsStatus").innerHTML = '<i class="fa-regular fa-circle-check" style="color:var(--ok)"></i> Live';
-      }catch(err){
-        document.getElementById("metricsStatus").innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#c00"></i> Offline (showing placeholders)';
-        // graceful fallback: show dashes
-        document.querySelectorAll("#liveMetrics .karma-spinner").forEach(s=>s.style.display="none");
-        document.getElementById("karmaPoints").textContent = "—";
-        document.getElementById("activeUsers").textContent = "—";
-        document.getElementById("rewardsUnlocked").textContent = "—";
-      }
-    }
-
-    // Refresh metrics periodically
-    setInterval(loadMetrics, 15000);
-
-    // ==== Leaderboard (by Name, sorted by Karma) ====
-    async function loadLeaderboard(){
-      document.getElementById("leaderSkeleton").style.display = "block";
-      document.getElementById("leaderList").innerHTML = "";
-      document.getElementById("lbStatus").textContent = "Loading…";
-
-      try{
-        let rows = await fetchJSON(ENDPOINTS.leaderboard, {timeout: 7000, tries: 3});
-        // Ensure shape is [{name, karma}] and sort by karma desc
-        rows = (rows||[]).sort((a,b)=>(b.karma||0)-(a.karma||0));
-
-        const list = document.getElementById("leaderList");
-        const skel = document.getElementById("leaderSkeleton");
-        skel.style.display = "none";
-
-        rows.slice(0, 20).forEach((row, idx)=>{
-          const li = document.createElement("li");
-          li.className = "leader-item";
-          const rank = idx+1;
-          const rankClass = rank===1 ? "gold" : rank===2 ? "silver" : rank===3 ? "bronze" : "";
-          const badge = rank===1 ? "👑" : rank<=3 ? "⭐" : "";
+        const res = await fetch(LB_API);
+        const data = await res.json();
+        leaderSkeleton?.remove();
+        leaderList.innerHTML = '';
+        data.sort((a,b)=>b.karma-a.karma).forEach((user,i)=>{
+          const li = document.createElement('li');
+          li.className='leader-item';
           li.innerHTML = `
             <div class="leader-left">
-              <div class="rank ${rankClass}">${rank}</div>
-              <div class="user">${row.name || "Citizen "+rank} ${badge}</div>
+              <div class="rank ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</div>
+              <div class="user">${user.name}</div>
             </div>
-            <div class="score"><i class="fa-solid fa-coins" style="margin-right:.35rem;color:var(--brand1)"></i>${(row.karma||0).toLocaleString()}</div>
+            <div class="score">${user.karma}</div>
           `;
-          list.appendChild(li);
+          leaderList.appendChild(li);
         });
-
-        document.getElementById("lbStatus").innerHTML = 'Live <i class="fa-regular fa-circle-check" style="color:var(--ok)"></i>';
-      }catch(e){
-        document.getElementById("lbStatus").innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#c00"></i> Failed';
-        document.getElementById("leaderSkeleton").style.display = "block";
-      }
-    }
-
-    // ==== Community Wall / Recent Pledges ====
-    async function loadRecentPledges(){
-      const status = document.getElementById("wallStatus");
-      const wall = document.getElementById("wall");
-      wall.innerHTML = "";
-      status.textContent = "Loading recent pledges…";
-      try{
-        // Expected shape: [{name, mission, karma, goal, timestamp}]
-        const pledges = await fetchJSON(ENDPOINTS.pledges, {timeout: 7000, tries: 3});
-        (pledges||[]).slice(0, 12).forEach(p => {
-          const el = document.createElement("div");
-          el.className = "wall-card";
-          el.innerHTML = `
-            <div class="wall-top">
-              <strong>${p.name || "Anonymous"}</strong>
-              <span class="badge"><i class="fa-solid fa-bullseye"></i> ${p.mission || "—"}</span>
-            </div>
-            <div style="font-size:.95rem;color:#334">${p.goal ? p.goal : ""}</div>
-            <div style="margin-top:.5rem;display:flex;align-items:center;gap:.75rem;font-weight:600;color:var(--brand2)">
-              <span><i class="fa-solid fa-coins" style="color:var(--brand1)"></i> ${(p.karma||0).toLocaleString()}</span>
-              <span style="opacity:.7;font-weight:500">•</span>
-              <span style="opacity:.8">${p.timestamp ? new Date(p.timestamp).toLocaleString() : ""}</span>
-            </div>
-          `;
-          wall.appendChild(el);
-        });
-        status.innerHTML = 'Latest pledges <i class="fa-regular fa-circle-check" style="color:var(--ok)"></i>';
-      }catch(e){
-        status.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#c00"></i> Unable to load';
-      }
-    }
-
-    // ==== Pledge Submit (now includes name & email + Logic Apps notify) ====
-    document.getElementById('pledgeForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const mission = document.getElementById('mission').value.trim();
-      const goal = document.getElementById('goal').value.trim();
-      const reason = document.getElementById('reason').value.trim();
-
-      const btn = document.getElementById("pledgeBtn");
-      const hint = document.getElementById("formHint");
-      const impact = document.getElementById("submitImpact");
-
-      if(!name || !email || !mission || goal.length<5 || !reason){
-        toast("Please complete all fields.");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
-      hint.textContent = "Turning your pledge into impact…";
-      animateImpactBar(impact, 2000);
-
-      try{
-        const res = await fetchJSON(ENDPOINTS.pledge, {
-          method: "POST",
-          timeout: 8000,
-          tries: 2,
-          body: { name, email, mission, goal, reason }
-        });
-
-        // Optional: ping Logic Apps via your Functions proxy (avoid exposing webhook client-side)
-        try {
-          await fetchJSON(ENDPOINTS.notify, {
-            method: "POST",
-            timeout: 5000,
-            tries: 1,
-            body: { name, email, mission, goal, karma: res?.karma || 0 }
-          });
-        } catch(_) { /* silent */ }
-
-        toast("Thank you for your Lakshya! 🎉");
-        hint.textContent = "Pledge received. Updating live metrics and leaderboard…";
-        document.getElementById('pledgeForm').reset();
-
-        // optimistic refresh
-        await Promise.all([loadMetrics(), loadLeaderboard(), loadRecentPledges()]);
       }catch(err){
-        toast("Submission failed. Please try again.");
-        hint.textContent = "We couldn’t reach the server. Your pledge matters—give it another go.";
-      }finally{
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit My Lakshya';
-        setTimeout(()=>{ document.getElementById("submitImpact").style.width="0%"; hint.textContent=""; }, 1200);
+        console.error(err);
+        document.getElementById('lbStatus').textContent='Failed to load';
+      }
+    }
+
+    async function fetchRecent(){
+      try{
+        const res = await fetch(RECENT_API);
+        const data = await res.json();
+        recentList.innerHTML='';
+        data.slice(0,10).forEach(pledge=>{
+          const li=document.createElement('li');
+          li.innerHTML = `<strong>${pledge.name}</strong> pledged <em>${pledge.goal}</em> for <strong>${pledge.mission}</strong> (${pledge.karma} Karma Points)`;
+          recentList.appendChild(li);
+        });
+      }catch(err){console.error(err);}
+    }
+
+    async function fetchMetrics(){
+      try{
+        const res = await fetch(METRICS_API);
+        const {karmaPoints,activeUsers,rewards} = await res.json();
+        karmaPointsEl.textContent=karmaPoints;
+        activeUsersEl.textContent=activeUsers;
+        rewardsUnlockedEl.textContent=rewards;
+
+        impactKarma.style.width = Math.min(100,karmaPoints/1000*100)+'%';
+        impactUsers.style.width = Math.min(100,activeUsers/500*100)+'%';
+        impactRewards.style.width = Math.min(100,rewards/200*100)+'%';
+      }catch(err){console.error(err);}
+    }
+
+    pledgeForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      submitBtn.disabled=true;
+      submitImpact.style.width = '0%';
+      const data = {
+        name:document.getElementById('name').value,
+        email:document.getElementById('email').value,
+        mission:document.getElementById('mission').value,
+        goal:document.getElementById('goal').value,
+        reason:document.getElementById('reason').value
+      };
+      try{
+        const res = await fetch(PLEDGE_API,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(data)
+        });
+        if(res.ok){
+          showToast('✅ Pledge Submitted!');
+          pledgeForm.reset();
+          submitImpact.style.width = '100%';
+          fetchLeaderboard();
+          fetchRecent();
+          fetchMetrics();
+        }else{
+          showToast('❌ Submission failed!');
+        }
+      }catch(err){
+        console.error(err);
+        showToast('⚠️ Submission error!');
+      } finally{
+        submitBtn.disabled=false;
+        setTimeout(()=>submitImpact.style.width='0%', 2000);
       }
     });
 
-    // ==== Boot ====
-    loadMetrics();
-    loadLeaderboard();
-    loadRecentPledges();
-    // Optionally poll the wall occasionally:
-    setInterval(loadRecentPledges, 30000);
+    document.getElementById('backToTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    fetchLeaderboard();
+    fetchRecent();
+    fetchMetrics();
+    setInterval(fetchMetrics,30000);
   </script>
 </body>
 </html>
