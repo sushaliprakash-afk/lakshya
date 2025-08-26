@@ -152,6 +152,40 @@
       cursor: pointer;
       box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
+
+    .metrics-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .metric-card {
+      flex: 1;
+      min-width: 250px;
+      background: #f4faff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .metric-card i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .metric-card p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -218,67 +252,92 @@
       <li><i class="fas fa-sync-alt"></i> Logic Apps: Automates reward conversion</li>
       <li><i class="fas fa-bell"></i> Notification Hubs: Sends real-time updates</li>
       <li><i class="fas fa-comments"></i> Communication Services: Adds in-app chat and SMS</li>
-      <li><i class="fas fa-shield-alt"></i> Azure AD B2C: Secure user authentication</li>
-    </ul>
-  </section>
-
-  <section id="dashboard">
-    <h2><i class="fas fa-chart-pie"></i> Sponsor Dashboard</h2>
-    <p>Corporates and government bodies can track verified citizen actions and measure impact using Azure-powered analytics.</p>
-  </section>
-
-  <section id="pledge">
-    <h2><i class="fas fa-pen-fancy"></i> Make Your Lakshya</h2>
-    <form id="pledgeForm">
-      <label for="mission"><i class="fas fa-bullseye"></i> Choose a Mission:</label>
-      <select id="mission" required>
-        <option value="">-- Select --</option>
-        <option>Healthcare for All</option>
-        <option>Education & Skilling</option>
-        <option>Sustainability</option>
-      </select>
-
-      <label                                                                                            <label for="goal"><i class="fas fa-shoe-prints"></i> Your Goal:</label>
-      <input type="text" id="goal" required minlength="5" placeholder="e.g., Walk 10,000 steps daily"/>
-
-      <label for="reason"><i class="fas fa-comment-dots"></i> Why does this matter to you?</label>
-      <textarea id="reason" rows="4" required placeholder="Share your motivation..."></textarea>
-
-      <button type="submit" class="cta-button"><i class="fas fa-paper-plane"></i> Submit My Lakshya</button>
-    </form>
-  </section>
-
-  <section id="contact">
-    <h2><i class="fas fa-address-book"></i> Contact Us</h2>
-    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:support@lakshya.in">support@lakshya.in</a></p>
-    <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="#">linkedin.com/company/lakshya</a></p>
-    <p><i class="fab fa-twitter"></i> Twitter: <a href="#">@LakshyaIndia</a></p>
-    <p><i class="fab fa-instagram"></i> Instagram: <a href="#">@lakshya_platform</a></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Lakshya Platform. All rights reserved.</p>
-    <div>
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <li><i class="fas fa-shield-alt"></i> Azure AD B2C: Secure                                                                     <section id="liveMetrics">
+  <h2><i class="fas fa-tachometer-alt"></i> Live Impact Metrics</h2>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <i class="fas fa-coins" style="color: #ff7b00;"></i>
+      <h3>Karma Points Earned</h3>
+      <p id="karmaPoints">Loading...</p>
     </div>
-    <p>Empowering citizens. Enabling change.</p>
-  </footer>
+    <div class="metric-card">
+      <i class="fas fa-users" style="color: #0056b3;"></i>
+      <h3>Active Citizens</h3>
+      <p id="activeUsers">Loading...</p>
+    </div>
+    <div class="metric-card">
+      <i class="fas fa-gift" style="color: #28a745;"></i>
+      <h3>Rewards Unlocked</h3>
+      <p id="rewardsUnlocked">Loading...</p>
+    </div>
+  </div>
+</section>
 
-  <button id="backToTop" title="Back to top">↑</button>
+<section id="pledge">
+  <h2><i class="fas fa-pen-fancy"></i> Make Your Lakshya</h2>
+  <form id="pledgeForm">
+    <label for="mission"><i class="fas fa-bullseye"></i> Choose a Mission:</label>
+    <select id="mission" required>
+      <option value="">-- Select --</option>
+      <option>Healthcare for All</option>
+      <option>Education & Skilling</option>
+      <option>Sustainability</option>
+    </select>
 
-  <script>
-    document.getElementById('backToTop').addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    <label for="goal"><i class="fas fa-shoe-prints"></i> Your Goal:</label>
+    <input type="text" id="goal" required minlength="5" placeholder="e.g., Walk 10,000 steps daily"/>
 
-    document.getElementById('pledgeForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert('Thank you for your Lakshya!');
-    });
-  </script>
+    <label for="reason"><i class="fas fa-comment-dots"></i> Why does this matter to you?</label>
+    <textarea id="reason" rows="4" required placeholder="Share your motivation..."></textarea>
+
+    <button type="submit" class="cta-button"><i class="fas fa-paper-plane"></i> Submit My Lakshya</button>
+  </form>
+</section>
+
+<section id="contact">
+  <h2><i class="fas fa-address-book"></i> Contact Us</h2>
+  <p><i class="fas fa-envelope"></i> Email: <a href="mailto:support@lakshya.in">support@lakshya.in</a></p>
+  <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="#">linkedin.com/company/lakshya</a></p>
+  <p><i class="fab fa-twitter"></i> Twitter: <a href="#">@LakshyaIndia</a></p>
+  <p><i class="fab fa-instagram"></i> Instagram: <a href="#">@lakshya_platform</a></p>
+</section>
+
+<footer>
+  <p>© 2025 Lakshya Platform. All rights reserved.</p>
+  <div>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+  </div>
+  <p>Empowering citizens. Enabling change.</p>
+</footer>
+
+<button id="backToTop" title="Back to top">↑</button>
+
+<script>
+  document.getElementById('backToTop').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('pledgeForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    alert('Thank you for your Lakshya!');
+  });
+
+  function updateMetrics() {
+    const karmaPoints = Math.floor(Math.random() * 100000 + 5000);
+    const activeUsers = Math.floor(Math.random() * 5000 + 100);
+    const rewardsUnlocked = Math.floor(Math.random() * 1000 + 50);
+
+    document.getElementById('karmaPoints').textContent = karmaPoints.toLocaleString();
+    document.getElementById('activeUsers').textContent = activeUsers.toLocaleString();
+    document.getElementById('rewardsUnlocked').textContent = rewardsUnlocked.toLocaleString();
+  }
+
+  updateMetrics();
+  setInterval(updateMetrics, 5000);
+</script>
 
 </body>
 </html>
