@@ -214,6 +214,15 @@
     <a href="#contact">Contact</a>
   </nav>
 
+  <div style="text-align:right; padding:0.5rem 1rem;">
+  <label for="langToggle"><i class="fas fa-language"></i> भाषा:</label>
+  <select id="langToggle" onchange="toggleLanguage()" style="padding:0.4rem; border-radius:6px;">
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+    <option value="kn">ಕನ್ನಡ</option>
+  </select>
+</div>
+  
   <section id="about">
     <h2><i class="fas fa-info-circle"></i> About Lakshya</h2>
     <p>Lakshya is a civic-tech platform that transforms personal goals into national impact. Whether you're walking for health or learning new skills, your actions earn Karma Points that fund public-good initiatives like health camps and scholarships.</p>
@@ -438,6 +447,32 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
+
+    function toggleLanguage() {
+  const lang = document.getElementById("langToggle").value;
+
+  const translations = {
+    hi: {
+      about: "लक्ष्य एक नागरिक-तकनीकी मंच है जो व्यक्तिगत लक्ष्यों को राष्ट्रीय प्रभाव में बदलता है।",
+      pledgeBtn: "मेरा लक्ष्य सबमिट करें"
+    },
+    kn: {
+      about: "ಲಕ್ಷ್ಯವು ವೈಯಕ್ತಿಕ ಗುರಿಗಳನ್ನು ರಾಷ್ಟ್ರೀಯ ಪರಿಣಾಮಕ್ಕೆ ಪರಿವರ್ತಿಸುವ ನಾಗರಿಕ-ಟೆಕ್ ವೇದಿಕೆಯಾಗಿದೆ.",
+      pledgeBtn: "ನನ್ನ ಗುರಿಯನ್ನು ಸಲ್ಲಿಸಿ"
+    },
+    en: {
+      about: "Lakshya is a civic-tech platform that transforms personal goals into national impact.",
+      pledgeBtn: "Submit My Lakshya"
+    }
+  };
+
+  const t = translations[lang];
+  if (t) {
+    document.querySelector("#about p").textContent = t.about;
+    document.getElementById("pledgeBtn").innerHTML = `<i class="fas fa-paper-plane"></i> ${t.pledgeBtn}`;
+  }
+}
+    
     // ==== CONFIG ====
     const FUNCTION_BASE_URL = "https://<YOUR_FUNCTION_APP>.azurewebsites.net"; // ← set this
     const ENDPOINTS = {
@@ -665,5 +700,6 @@
   </script>
 </body>
 </html>
+
 
 
