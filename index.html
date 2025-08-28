@@ -477,11 +477,11 @@
 }
     
     // ==== CONFIG ====
-    const FUNCTION_BASE_URL = "https://<YOUR_FUNCTION_APP>.azurewebsites.net"; // ← set this
+    const FUNCTION_BASE_URL = "https://lakshya-backend-fghnc4h6c0bufgfp.malaysiawest-01.azurewebsites.net"; // ← set this
     const ENDPOINTS = {
       metrics: FUNCTION_BASE_URL + "/api/metrics",
       leaderboard: FUNCTION_BASE_URL + "/api/leaderboard",
-      pledge: FUNCTION_BASE_URL + "/api/pledge",
+      pledge: FUNCTION_BASE_URL + "/api/submitPledge",
       pledges: FUNCTION_BASE_URL + "/api/pledges",       // ⬅ list recent pledges
       notify:  FUNCTION_BASE_URL + "/api/notify"         // ⬅ proxy to Logic Apps email (see notes)
     };
@@ -703,6 +703,7 @@
   </script>
 </body>
 </html>
+
 
 
 
